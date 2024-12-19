@@ -13,6 +13,18 @@ public class Main {
            	break;
            }
 
+           for(int i=0; i<input.length; i++){
+           	String comm = "";
+           	if(input.charAt(i) != ' '){
+           		comm += input.charAt(i);
+           	}
+			else{
+				if(comm.equals("echo"){
+					System.out.println(input.substring(i+1);
+					break;
+			}
+		}
+
         	System.out.println(input + ": command not found");
        }
     }
