@@ -1,6 +1,11 @@
 import java.util.Scanner;
 
 public class Main {
+    public static void echoCommand(String input)
+    {
+        System.out.println(input);
+    }
+    
 	public static void main(String[] args) throws Exception {
 		// Uncomment this block to pass the first stage
 		while(true) {
@@ -12,20 +17,12 @@ public class Main {
 			if(input.equals("exit 0")) {
 				break;
 			}
-			String comm = "";
-			input += " ";
-			for(int i=0; i<input.length(); i++) {
-				if(input.charAt(i) != ' ') {
-					comm += input.charAt(i);
-				}
-				else if(comm.equals("echo")) {
-					System.out.println(input.substring(i+1,input.length()));
-					break;
-				}
-				else {
-					System.out.println(input + ": command not found");
-					break;
-				}
+			if(input.startsWith("echo"))
+			{
+			    echoCommand(input.substring(5));
+			}
+			else{
+			    System.out.println(input + ": command not found");
 			}
 		}
 
