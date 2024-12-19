@@ -9,7 +9,7 @@ public class Main {
         	Scanner scanner = new Scanner(System.in);
         	String input = scanner.nextLine();
 
-		if(input == "exit 0"){
+		if(input.equals("exit 0")){
            	break;
            }
 
