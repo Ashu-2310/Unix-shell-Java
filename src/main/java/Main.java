@@ -3,13 +3,16 @@ import java.nio.file.*;
 import java.nio.file.*;
 
 public class Main {
+
+	private static String cwd = Path.of("").toAbsolutePath().toString();
+
 	private static void echoCommand(String input)
 	{
 		System.out.println(input);
 	}
 
 	private static void checkCommandType(String input) {
-		ArrayList<String> listOfCommands = new ArrayList<>(Arrays.asList("echo","cd","type","exit","pwd"));
+		ArrayList<String> listOfCommands = new ArrayList<>(Arrays.asList("echo","cd","type","exit"));
 		if(listOfCommands.contains(input)) {
 			System.out.println(input + " is a shell builtin");
 		}
@@ -34,6 +37,16 @@ public class Main {
 		return null;
 	}
 
+	private static void cdImplement(String directory)
+	{
+		if(Files.isDirectory(Path.of(directory))) {
+			cwd = directory;
+		}
+		else {
+			System.out.printf("cd: %s: No such file or directory%n", directory);
+		}
+	}
+
 	public static void main(String[] args) throws Exception {
 		// Uncomment this block to pass the first stage
 		while(true) {
@@ -54,7 +67,10 @@ public class Main {
 			}
 			else if(input.startsWith("pwd"))
 			{
-			    System.out.println(System.getProperty("user.dir"));
+				System.out.println(cwd);
+			}
+			else if(input.startsWith("cd")) {
+				cdImplement(input.substring(3));
 			}
 			else {
 				String command = input.split(" ")[0];
