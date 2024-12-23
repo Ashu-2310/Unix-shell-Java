@@ -40,7 +40,7 @@ public class Main {
 	private static void cdImplement(String directory)
 	{
 	    if (directory.startsWith("~")){
-	        directory = System.getProperty("user.home") + directory.substring(1);
+	        directory = directory.replace("~", System.getenv("HOME"));
 	    }
 	    if (!directory.startsWith("/")) {
           directory = cwd + "/" + directory;
