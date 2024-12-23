@@ -12,7 +12,7 @@ public class Main {
 	}
 
 	private static void checkCommandType(String input) {
-		ArrayList<String> listOfCommands = new ArrayList<>(Arrays.asList("echo","cd","type","exit","pwd"));
+		ArrayList<String> listOfCommands = new ArrayList<>(Arrays.asList("pwd","echo","cd","type","exit"));
 		if(listOfCommands.contains(input)) {
 			System.out.println(input + " is a shell builtin");
 		}
@@ -39,8 +39,11 @@ public class Main {
 
 	private static void cdImplement(String directory)
 	{
+	    if (!directory.startsWith("/")) {
+          directory = cwd + "/" + directory;
+        }
 		if(Files.isDirectory(Path.of(directory))) {
-			cwd = directory;
+			cwd = Path.of(directory).normalize().toString();
 		}
 		else {
 			System.out.printf("cd: %s: No such file or directory%n", directory);
