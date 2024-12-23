@@ -9,7 +9,7 @@ public class Main {
 	}
 
 	private static void checkCommandType(String input) {
-		ArrayList<String> listOfCommands = new ArrayList<>(Arrays.asList("echo","cd","type","exit"));
+		ArrayList<String> listOfCommands = new ArrayList<>(Arrays.asList("echo","cd","type","exit","pwd"));
 		if(listOfCommands.contains(input)) {
 			System.out.println(input + " is a shell builtin");
 		}
