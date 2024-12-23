@@ -1,39 +1,39 @@
 import java.util.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.nio.file.*;
+import java.nio.file.*;
 
 public class Main {
-    private static void echoCommand(String input)
-    {
-        System.out.println(input);
-    }
-    
-    private static void checkCommandType(String input){
-        ArrayList<String> listOfCommands = new ArrayList<>(Arrays.asList("echo","cd","type","exit"));
-        if(listOfCommands.contains(input)){
-            System.out.println(input + " is a shell builtin");
-        }
-        else{
-            String path = getPath(input);
-            if(path != null){
-                System.out.println(input + " is " + path);
-            }
-            else{
-                System.out.println(input + ": not found");
-            }
-        }
-    }
-    
-    private static String getPath(String parameter) {
-    for (String path : System.getenv("PATH").split(":")) {
-      Path fullPath = Path.of(path, parameter);
-      if (Files.isRegularFile(fullPath)) {
-        return fullPath.toString();
-      }
-    }
-    return null;
-  }
-    
+	private static void echoCommand(String input)
+	{
+		System.out.println(input);
+	}
+
+	private static void checkCommandType(String input) {
+		ArrayList<String> listOfCommands = new ArrayList<>(Arrays.asList("echo","cd","type","exit"));
+		if(listOfCommands.contains(input)) {
+			System.out.println(input + " is a shell builtin");
+		}
+		else {
+			String path = getPath(input);
+			if(path != null) {
+				System.out.println(input + " is " + path);
+			}
+			else {
+				System.out.println(input + ": not found");
+			}
+		}
+	}
+
+	private static String getPath(String parameter) {
+		for (String path : System.getenv("PATH").split(":")) {
+			Path fullPath = Path.of(path, parameter);
+			if (Files.isRegularFile(fullPath)) {
+				return fullPath.toString();
+			}
+		}
+		return null;
+	}
+
 	public static void main(String[] args) throws Exception {
 		// Uncomment this block to pass the first stage
 		while(true) {
@@ -47,15 +47,22 @@ public class Main {
 			}
 			if(input.startsWith("echo"))
 			{
-			    echoCommand(input.substring(5));
+				echoCommand(input.substring(5));
 			}
-			else if(input.startsWith("type")){
-			    checkCommandType(input.substring(5));
+			else if(input.startsWith("type")) {
+				checkCommandType(input.substring(5));
 			}
-			else{
-			    System.out.println(input + ": command not found");
+			else {
+				String command = input.split(" ")[0];
+				String path = getPath(command);
+				if (path == null) {
+					System.out.printf("%s: command not found%n", command);
+				} else {
+					String fullPath = path + input.substring(command.length());
+					Process p = Runtime.getRuntime().exec(fullPath.split(" "));
+					p.getInputStream().transferTo(System.out);
+				}
 			}
-		}
 
+		}
 	}
-}
