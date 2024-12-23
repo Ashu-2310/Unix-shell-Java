@@ -52,6 +52,10 @@ public class Main {
 			else if(input.startsWith("type")) {
 				checkCommandType(input.substring(5));
 			}
+			else if(input.startsWith("pwd"))
+			{
+			    System.out.println(System.getProperty("user.dir"));
+			}
 			else {
 				String command = input.split(" ")[0];
 				String path = getPath(command);
